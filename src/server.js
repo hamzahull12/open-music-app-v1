@@ -2,9 +2,9 @@ require('dotenv').config();
 const Hapi = require('@hapi/hapi');
 const ClientError = require('./exception/ClientError');
 const albums = require('./api/albums');
-const AlbumsService = require('./services/AlbumsService');
+const AlbumsService = require('./services/database/AlbumsService');
 const AlbumsValidator = require('./validator/albums');
-const SongsService = require('./services/SongsService');
+const SongsService = require('./services/database/SongsService');
 const songs = require('./api/songs');
 const SongsValidator = require('./validator/songs');
 
