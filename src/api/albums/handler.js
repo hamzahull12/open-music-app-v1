@@ -11,8 +11,6 @@ class AlbumsHandler {
     this._validator.AlbumValidatePayload(request.payload);
 
     const { name, year } = request.payload;
-    console.log(name);
-    console.log(year);
     const albumId = await this._service.addAlbum({ name, year });
 
     const response = h.response({
@@ -22,6 +20,42 @@ class AlbumsHandler {
       },
     }).code(201);
     return response;
+  }
+
+  async getAlbumByIdHandler(request) {
+    const { id } = request.params;
+    const albums = await this._service.getAlbumById(id);
+    const songs = await this._service.getSongFromAlbums(id);
+    const result = { ...albums, songs };
+    console.log(result);
+    return {
+      status: 'success',
+      data: {
+        album: result,
+      },
+    };
+  }
+
+  async putAlbumByIdHandler(request) {
+    this._validator.AlbumValidatePayload(request.payload);
+
+    const { id } = request.params;
+    await this._service.editAlbumById(id, request.payload);
+    return {
+      status: 'success',
+      message: 'Album Berhasil diperbarui',
+    };
+  }
+
+  async deleteAlbumByIdHandler(request) {
+    const { id } = request.params;
+
+    await this._service.deleteAlbumById(id);
+
+    return {
+      status: 'success',
+      message: 'Album berhasil di hapus',
+    };
   }
 }
 
